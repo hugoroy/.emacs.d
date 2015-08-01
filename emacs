@@ -431,10 +431,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (global-evil-search-highlight-persist t)
 
 ;; Powerline
-;;(add-to-list 'load-path "~/.emacs.d/powerline")
-;;(require 'powerline)
-;;(powerline-evil-theme)
-;;(display-time-mode t)
+(require 'powerline)
+(display-time-mode t)
 
 ;; Evil-Org
 (require 'evil-org)
