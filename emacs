@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ; General
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -258,6 +259,13 @@
 
 ;; http://orgmode.org/guide/Activation.html#Activation
 ;; The following lines are always needed.  Choose your own keys.
+=======
+;; OrgMode
+
+;; http://orgmode.org/guide/Activation.html#Activation
+;; The following lines are always needed.  Choose your own keys.
+    (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode)) ; not needed since Emacs 22.2
+>>>>>>> 676328a4b7587179178113c9737cd2cc2519a557
     (add-hook 'org-mode-hook 'turn-on-font-lock) ; not needed when global-font-lock-mode is on
     (global-set-key "\C-cl" 'org-store-link)
     (global-set-key "\C-ca" 'org-agenda)
@@ -272,6 +280,7 @@
      (setq org-log-done 'note)
 
 ;; org files
+<<<<<<< HEAD
     (setq org-agenda-files (list "~/org/hrd.org"
 				 "~/org/hrd.org_archive"
 				 ))
@@ -317,7 +326,6 @@
 
 ;; Insert your own username on the second line, I think you need to add
 ;; the domain if it isn't mykolab.com, e.g. "foobar@mykolab.ch".
-(setq org-caldav-url "https://totosh.ampoliros.net/iRony/calendars/hugo%40ampoliros.net")
 
 ;; The name of your calendar, typically "Calendar" or similar
 ; Tasks (bug: does not seem to accept DAV requests)
@@ -341,8 +349,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;;; Emacs client for Notmuch
-
 (autoload 'notmuch "notmuch" "notmuch mail" t)
 
 ;;; Org-Mutt
@@ -351,7 +357,7 @@
 (require 'org-protocol)
 (require 'org-capture)
 
-(setq org-default-notes-file "~/org/notes.org")
+(setq org-default-notes-file "~/org/gtd.org")
 
 (setq org-capture-templates
       (quote
