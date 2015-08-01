@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ; General
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -259,13 +258,10 @@
 
 ;; http://orgmode.org/guide/Activation.html#Activation
 ;; The following lines are always needed.  Choose your own keys.
-=======
-;; OrgMode
 
 ;; http://orgmode.org/guide/Activation.html#Activation
 ;; The following lines are always needed.  Choose your own keys.
     (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode)) ; not needed since Emacs 22.2
->>>>>>> 676328a4b7587179178113c9737cd2cc2519a557
     (add-hook 'org-mode-hook 'turn-on-font-lock) ; not needed when global-font-lock-mode is on
     (global-set-key "\C-cl" 'org-store-link)
     (global-set-key "\C-ca" 'org-agenda)
@@ -280,7 +276,6 @@
      (setq org-log-done 'note)
 
 ;; org files
-<<<<<<< HEAD
     (setq org-agenda-files (list "~/org/hrd.org"
 				 "~/org/hrd.org_archive"
 				 ))
