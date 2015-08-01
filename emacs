@@ -40,6 +40,11 @@
 (add-hook 'fill-no-break-predicate 'fill-french-nobreak-p)
 (setq sentence-end-double-space nil)
 
+; Scrolling
+(setq scroll-margin 5
+scroll-conservatively 9999
+scroll-step 1)
+
 ; Backups
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 (setq delete-old-versions -1)
@@ -67,17 +72,17 @@
 (require 'undo-tree)
     
 ; Recent Files
-;;;(require 'recentf)
-;;;(recentf-mode 1)
-;;;(defun recentf-open-files-compl ()
-;;;  (interactive)
-;;;  (let* ((all-files recentf-list)
-;;;	(tocpl (mapcar (function 
-;;;	   (lambda (x) (cons (file-name-nondirectory x) x))) all-files))
-;;;	(prompt (append '("File name: ") tocpl))
-;;;	(fname (completing-read (car prompt) (cdr prompt) nil nil)))
-;;;	(find-file (cdr (assoc-ignore-representation fname tocpl))))) 
-;;;
+(require 'recentf)
+(recentf-mode 1)
+(defun recentf-open-files-compl ()
+ (interactive)
+ (let* ((all-files recentf-list)
+	(tocpl (mapcar (function 
+	   (lambda (x) (cons (file-name-nondirectory x) x))) all-files))
+	(prompt (append '("File name: ") tocpl))
+	(fname (completing-read (car prompt) (cdr prompt) nil nil)))
+	(find-file (cdr (assoc-ignore-representation fname tocpl))))) 
+
 
 ; Highlight FIXMEs and TODOs
 (add-hook 'c-mode-common-hook
@@ -197,11 +202,8 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.mdwn\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.mkdn\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("~/.mutt/tmp/*" . markdown-mode))
-; Pandoc-Mode
-(load "pandoc-mode")
-(add-hook 'markdown-mode-hook 'pandoc-mode)
-(setq pandoc-data-dir "~/.pandoc/mode")
 ; YAML-Mode
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
@@ -214,6 +216,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fonctions pour pandoc-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Pandoc-Mode
+(load "pandoc-mode")
+(add-hook 'markdown-mode-hook 'pandoc-mode)
+(setq pandoc-data-dir "~/.pandoc/mode")
 
 ;; https://github.com/joostkremers/pandoc-mode/issues/38
 (defun pandoc-test-directive (ofmt &optional text)
@@ -276,8 +283,8 @@
      (setq org-log-done 'note)
 
 ;; org files
-    (setq org-agenda-files (list "~/org/hrd.org"
-				 "~/org/hrd.org_archive"
+    (setq org-agenda-files (list "~/Org/agenda.org"
+				 "~/Org/agenda.org_archive"
 				 ))
 
 ;; todo states
@@ -311,8 +318,7 @@
 
 
 ;; MobileOrg
-;(setq org-mobile-directory "~/org/mobile")
-(setq org-mobile-directory ":https://totosh.ampoliros.net/iRony/files/MobileOrg")
+;(setq org-mobile-directory "~/Org/mobile")
 
 
 ;; org-caldav
@@ -328,7 +334,7 @@
 ;(setq org-caldav-calendar-id "Org")
 
 ;; Local file that gets events added on the phone
-(setq org-caldav-inbox "~/org/from-totosh.org")
+(setq org-caldav-inbox "~/Org/caldav/totosh.org")
 
 ;; List of your org files here
 (setq org-caldav-files org-agenda-files)
@@ -343,7 +349,6 @@
 ;;; Email
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 (autoload 'notmuch "notmuch" "notmuch mail" t)
 
 ;;; Org-Mutt
@@ -352,14 +357,14 @@
 (require 'org-protocol)
 (require 'org-capture)
 
-(setq org-default-notes-file "~/org/gtd.org")
+(setq org-default-notes-file "~/Org/notes.org")
 
 (setq org-capture-templates
       (quote
        (("m"
          "Mail"
          entry
-         (file+headline "~/org/from-mutt.org" "Incoming")
+         (file+headline "~/Org/mutt.org" "Incoming")
          "* TODO %^{Title}\n\n  Source: %u, %c\n\n  %i"
          :empty-lines 1)
         ;; ... more templates here ...
@@ -402,12 +407,15 @@ Maildir, or by Message-ID."
 
 (require 'evil-leader)
 (global-evil-leader-mode)
-(evil-leader/set-leader ",")
+(evil-leader/set-leader "SPC")
 
 ;; http://www.emacswiki.org/emacs/Evil#toc3
 ;; Vim layer 
 (require 'evil)  
 (evil-mode 1)
+
+(define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+(define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
 
 ;; esc quits
 (defun minibuffer-keyboard-quit ()
@@ -430,9 +438,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (require 'evil-search-highlight-persist)
 (global-evil-search-highlight-persist t)
+(evil-leader/set-key "SPC" 'evil-search-highlight-persist-remove-all)
 
 ;; Powerline
 (require 'powerline)
+(powerline-evil-vim-color-theme)
 (display-time-mode t)
 
 ;; Evil-Org
