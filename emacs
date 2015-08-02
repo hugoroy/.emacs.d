@@ -4,7 +4,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(blink-cursor-mode nil)
  '(display-time-mode t)
  '(inhibit-startup-screen t)
  '(pandoc-directives
@@ -16,10 +15,13 @@
      ("qtitle" . pandoc-qtitle-directive)))))
 
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(default ((t (:family "Input" :foundry "unknown" :slant normal :weight normal :height 128 :width normal))))
- ; does not work, I don't know why:
-;'(bold ((t (:family "Input Condensed Black" :foundry "unknown" :slant normal :weight normal :height 128 :width normal))))
-)
+;; Set the color of the fringe
+ '(fringe ((t (:background "white")))))
 
 (global-visual-line-mode 1)
 (blink-cursor-mode 0)
@@ -191,9 +193,7 @@ scroll-step 1)
 ;; (mapcar (lambda(fb) (set-fringe-bitmap-face fb 'org-hide))
 ;;         fringe-bitmaps)
 
-;; Set the color of the fringe
-(custom-set-faces
- '(fringe ((t (:background "white")))))
+
 
 ;; Command to toggle the display of the mode-line as a header
 (defvar-local header-line-format nil)
