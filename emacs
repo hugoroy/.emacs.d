@@ -4,6 +4,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(blink-cursor-mode nil)
+ '(display-time-mode t)
  '(inhibit-startup-screen t)
  '(pandoc-directives
    (quote
@@ -13,7 +15,15 @@
      ("Llap" . pandoc-Llap-directive)
      ("qtitle" . pandoc-qtitle-directive)))))
 
+(custom-set-faces
+ '(default ((t (:family "Input" :foundry "unknown" :slant normal :weight normal :height 128 :width normal))))
+ ; does not work, I don't know why:
+;'(bold ((t (:family "Input Condensed Black" :foundry "unknown" :slant normal :weight normal :height 128 :width normal))))
+)
+
 (global-visual-line-mode 1)
+(blink-cursor-mode 0)
+(setq visible-bell t)
 
 ; MELPA 
 (require 'package) ;; You might already have this line
@@ -28,6 +38,7 @@
 (prefer-coding-system 'utf-8)
 (when (display-graphic-p)
   (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+(load-library "iso-transl") 
 
 ; Offset, tabs and indents
 (setq c-basic-offset 4)
@@ -62,6 +73,9 @@ scroll-step 1)
       '(kill-ring
         search-ring
         regexp-search-ring))
+
+; Always follow symlinks
+(setq vc-follow-symlinks t)
 
 ; Bind-Keys
 (require 'bind-key)
@@ -101,12 +115,6 @@ scroll-step 1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Naked emacs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;(Toggle-frame-fullscreen) 
-;(scroll-bar-mode 0)
-;(tool-bar-mode 0)
-;(menu-bar-mode 0)
-
 
 ;; See http://bzg.fr/emacs-hide-mode-line.html
 (defvar-local hidden-mode-line-mode nil)
@@ -163,7 +171,7 @@ scroll-step 1)
         2))))
 
 ;; Now activate this global minor mode
-;(bzg-big-fringe-mode 1)
+(bzg-big-fringe-mode 1)
 
 ;; To activate the fringe by default and deactivate it when windows
 ;; are split vertically, uncomment this:
@@ -171,7 +179,7 @@ scroll-step 1)
 ;;           (lambda ()
 ;;             (if (delq nil
 ;;                       (let ((fw (frame-width)))
-;;                         (mapcar (lambda(w) (< (window-width w) fw))
+;;                         (mapcar (lambda(w) (< (window-width w) (/ fw 2)))
 ;;                                 (window-list))))
 ;;                 (bzg-big-fringe-mode 0)
 ;;               (bzg-big-fringe-mode 1))))
@@ -180,16 +188,25 @@ scroll-step 1)
 ;; (setq default-cursor-type 'hbar)
 
 ;; Get rid of the indicators in the fringe
-;(mapcar (lambda(fb) (set-fringe-bitmap-face fb 'org-hide))
-;        fringe-bitmaps)
+;; (mapcar (lambda(fb) (set-fringe-bitmap-face fb 'org-hide))
+;;         fringe-bitmaps)
 
 ;; Set the color of the fringe
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(fringe ((t (:background "white")))))
+
+;; Command to toggle the display of the mode-line as a header
+(defvar-local header-line-format nil)
+(defun mode-line-in-header ()
+  (interactive)
+  (if (not header-line-format)
+      (setq header-line-format mode-line-format
+            mode-line-format nil)
+    (setq mode-line-format header-line-format
+          header-line-format nil))
+  (set-window-buffer nil (current-buffer)))
+
+(global-set-key (kbd "C-s-SPC") 'mode-line-in-header)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -203,7 +220,6 @@ scroll-step 1)
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.mdwn\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.mkdn\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("~/.mutt/tmp/*" . markdown-mode))
 ; YAML-Mode
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
@@ -327,6 +343,7 @@ scroll-step 1)
 
 ;; Insert your own username on the second line, I think you need to add
 ;; the domain if it isn't mykolab.com, e.g. "foobar@mykolab.ch".
+(setq org-caldav-url "https://totosh.ampoliros.net/iRony/calendars/hugo@ampoliros.net")
 
 ;; The name of your calendar, typically "Calendar" or similar
 ; Tasks (bug: does not seem to accept DAV requests)
@@ -350,6 +367,9 @@ scroll-step 1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (autoload 'notmuch "notmuch" "notmuch mail" t)
+
+(add-to-list 'auto-mode-alist '("/mutt" . mail-mode))
+(add-hook 'mail-mode-hook 'turn-on-auto-fill)
 
 ;;; Org-Mutt
 
