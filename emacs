@@ -14,15 +14,12 @@
      ("Llap" . pandoc-Llap-directive)
      ("qtitle" . pandoc-qtitle-directive)))))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Input" :foundry "unknown" :slant normal :weight normal :height 128 :width normal))))
 ;; Set the color of the fringe
+(custom-set-faces
  '(fringe ((t (:background "white")))))
 
+(set-default-font "Input")
+      
 (global-visual-line-mode 1)
 (blink-cursor-mode 0)
 (setq visible-bell t)
@@ -192,7 +189,6 @@ scroll-step 1)
 ;; Get rid of the indicators in the fringe
 ;; (mapcar (lambda(fb) (set-fringe-bitmap-face fb 'org-hide))
 ;;         fringe-bitmaps)
-
 
 
 ;; Command to toggle the display of the mode-line as a header
@@ -368,7 +364,8 @@ scroll-step 1)
 
 (autoload 'notmuch "notmuch" "notmuch mail" t)
 
-(add-to-list 'auto-mode-alist '("/mutt" . mail-mode))
+; Need to say mutt-xps in order to avoid clash with org-mutt
+(add-to-list 'auto-mode-alist '("/mutt-xps" . mail-mode))
 (add-hook 'mail-mode-hook 'turn-on-auto-fill)
 
 ;;; Org-Mutt
