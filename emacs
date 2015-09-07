@@ -170,7 +170,7 @@ scroll-step 1)
         2))))
 
 ;; Now activate this global minor mode
-(bzg-big-fringe-mode 1)
+;; (bzg-big-fringe-mode 1)
 
 ;; To activate the fringe by default and deactivate it when windows
 ;; are split vertically, uncomment this:
@@ -212,6 +212,7 @@ scroll-step 1)
 (autoload 'markdown-mode "markdown-mode.el"
    "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.pandoc\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.mdwn\\'" . markdown-mode))
@@ -232,6 +233,7 @@ scroll-step 1)
 ; Pandoc-Mode
 (load "pandoc-mode")
 (add-hook 'markdown-mode-hook 'pandoc-mode)
+(add-hook 'latex-mode-hook 'pandoc-mode)
 (setq pandoc-data-dir "~/.pandoc/mode")
 
 ;; https://github.com/joostkremers/pandoc-mode/issues/38
@@ -330,7 +332,7 @@ scroll-step 1)
 
 
 ;; MobileOrg
-;(setq org-mobile-directory "~/Org/mobile")
+(setq org-mobile-directory "~/Org/mobile")
 
 
 ;; org-caldav
