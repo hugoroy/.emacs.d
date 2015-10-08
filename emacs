@@ -10,15 +10,17 @@
    (quote
     (("include" . pandoc--process-include-directive)
      ("lisp" . pandoc--process-lisp-directive)
+     ("test" . pandoc-test-directive)
      ("sc" . pandoc-sc-directive)
      ("Llap" . pandoc-Llap-directive)
+     ("nbsp" . pandoc-nbsp-directive)
      ("qtitle" . pandoc-qtitle-directive)))))
 
 ;; Set the color of the fringe
 (custom-set-faces
  '(fringe ((t (:background "white")))))
 
-(set-default-font "Input")
+(set-default-font "Input Mono Narrow Light")
       
 (global-visual-line-mode 1)
 (blink-cursor-mode 0)
@@ -278,6 +280,8 @@ scroll-step 1)
     (format "\\begin{qtitle}%s\\end{qtitle}" text))
    ((string= ofmt "html5")
     (format "<div class='qtitle'>%s</div>" text))
+   ((string= ofmt "markdown")
+    (format "[%s]" text))
    (t text)))
 
 (defun pandoc-Llap-directive (ofmt &optional text)
@@ -287,6 +291,19 @@ scroll-step 1)
     (format "\\Llap{%s}" text))
    ((string= ofmt "html5")
     (format "<span class='Llap'>%s</span>" text))
+   (t text)))
+
+(defun pandoc-nbsp-directive (ofmt &optional text)
+  "Handle @@nbsp directives in pandoc-mode."
+  (cond
+   ((string= ofmt "latex")
+    (format "~" text))
+   ((string= ofmt "html5")
+    (format "&nbsp;" text))
+   ((string= ofmt "markdown")
+    (format " " text))
+   ((string= ofmt "docx")
+    (format " " text))
    (t text)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
